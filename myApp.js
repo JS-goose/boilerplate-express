@@ -4,8 +4,21 @@ let app = express();
 const absolutePath = __dirname + "/views/index.html";
 const middleWarePath = __dirname + "/public";
 
+// It's possible to chain middleware calls such as the example below
+app.get(
+  "/now",
+  (req, res, next) => {
+    req.time = new Date().toString();
+    next();
+  },
+  (req, res) => {
+    res.send({ time: req.time });
+  }
+);
+
 // Static is a middleware function that takes 3 arguments - request, response, & next function in cycle //
 // Static is typically used to execute side effects but can end the cycle with a response if conditioins are met //
+// express.static()
 app.use(
   // This works and sends info to the command line
   // "/test",(req,res,next) => {
