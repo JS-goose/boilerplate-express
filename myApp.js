@@ -4,6 +4,22 @@ let app = express();
 const absolutePath = __dirname + "/views/index.html";
 const middleWarePath = __dirname + "/public";
 
+// Another common way to get input data from a request is by encoding the data after the route path //
+// This data is delimited via the ?, includes key/value pairs FIELD=VALUE, and each couple is separated //
+// by the ampersand.  Some characters like % have to be encoded first before being sent //
+app.get("/name", (req, res) => {
+  res.send({ name: `${req.query.first} ${req.query.last}` });
+});
+
+// When requesting data from an API, one way to do that is through URL parameters //
+// That information can be obtained via the REQUEST.params method where :STRING is //
+// used to denote a key:value pair in the request object //
+app.get("/:word/:whatever/echo", (req, res) => {
+  console.log(req.params);
+  console.log(req.params.word);
+  res.send({ echo: `${req.params.word}` });
+});
+
 // It's possible to chain middleware calls such as the example below
 app.get(
   "/now",
